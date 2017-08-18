@@ -1,0 +1,83 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 1</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+// 800 and 600 are the width and height of the canvas
+// new Phaser.Game creates an instance of a Phaser Game object
+// Phaser.AUTO is the rendering context. Auto automatically tries
+// to use WebGL, but if the browser or deivce doesn't support it 
+// it'll fall back to Canvas
+/*The fourth parameter is an empty string, this is the id of the DOM element in which you would like to insert the canvas element that Phaser creates. As we've left it blank it will simply be appended to the body. The final parameter is an object containing four references to Phasers essential functions. Their use is thoroughly explained here. Note that this object isn't required - Phaser supports a full State system allowing you to break your code into much cleaner single objects. But for a simple Getting Started guide such as this we'll use this approach as it allows for faster prototyping.*/
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+// this loads the assets we need for our game
+function preload() {
+	game.load.image('sky', 'assets/sky.png');
+	game.load.image('ground', 'assets/platform.png');
+	game.load.image('star', 'assets/star.png');
+	game.load.spritesheet('dude', 'assets/dude.png', 32,48);
+}
+
+// in order to add a sprite to our game this code has to be in the
+// create function 
+// where you add 
+// 0, 0 by default places the whatever at the top left of your 
+// game for you
+
+function create() {
+	// using physics, enable the Arcade physics system
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+
+	// background for our game
+	game.add.sprite(0,0, 'sky');
+
+	// platform gruoup contains the ground and 2
+	// ledges we can jump on 
+	platforms = game.add.group();
+
+	//enable physics for any object that is created in this group
+	platforms.enableBody = true;
+
+	// create the ground
+	var ground = platforms.create(0, game.world.height - 64, 'ground');
+
+	// scale it to fit the width of the game (original sprite is 
+	// 400 x 32 in size)
+	ground.scale.setTo(2,2);
+
+	// this stops it from falling away when you jump on it
+	ground.body.immovable = true;
+
+	// creates two ledges 
+	var ledge = platforms.create(400, 400, 'ground');
+
+	ledge.body.immovable = true;
+
+	ledge = platforms.create(-150, 250, 'ground');
+
+	ledge.body.immovable = true;
+
+	// adds the star sprite
+	game.add.sprite(0,0,'star');
+}
+
+function update() {
+}
+
+</script>
+
+</body>
+</html>
