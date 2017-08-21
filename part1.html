@@ -72,6 +72,22 @@ function create() {
 
 	// adds the star sprite
 	game.add.sprite(0,0,'star');
+
+	// The player and it's settings
+	player = game.add.sprite(32, game.world.height - 150, 'dude');
+
+	// enable physics on the player
+	game.physics.arcade.enable(player);
+
+	// player physics properties. give him some bounce
+	player.body.bounce.y = 0.2;
+	player.body.gravity.y = 300;
+	player.body.collideWorldBounds = true;
+
+	// our two animations, walking left and right
+	// the true parameter tells the animation to loop
+	player.animations.add('left', [0, 1, 2, 3], 10, true);
+	player.animations.add('right', [5, 6, 7, 8], 10, true);
 }
 
 function update() {
