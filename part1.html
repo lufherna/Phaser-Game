@@ -36,6 +36,8 @@ function preload() {
 // where you add 
 // 0, 0 by default places the whatever at the top left of your 
 // game for you
+var score = 0;
+var scoreText;
 
 function create() {
 	// using physics, enable the Arcade physics system
@@ -108,6 +110,9 @@ function create() {
 	}
 	// our controls
 	cursors = game.input.keyboard.createCursorKeys();
+
+	// scoreText 
+	scoreText = game.add.text(16, 16, 'score:0', { fontSize: '32px', fill: '#000'});
 }
 
 function update() {
@@ -157,6 +162,10 @@ function collectStar (player, star) {
 
 		// removes the star from the screen
 		star.kill();
+
+		// add and update the score
+		score += 10;
+		scoreText.text = 'Score: ' + score;
 	}
 
 </script>
