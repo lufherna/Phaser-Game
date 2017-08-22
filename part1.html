@@ -101,11 +101,13 @@ function create() {
 		var star = stars.create(i * 70, 0, 'star');
 
 		// let gravity drop it
-		star.body.gravity.y = 6;
+		star.body.gravity.y = 300;
 
 		// this just gives each star a slightly random bounce value
 		star.body.bounce.y = 0.7 + Math.random() * 0.2;
 	}
+	// our controls
+	cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
@@ -113,7 +115,9 @@ function update() {
 	// takes two objects and tests for collision and performs 
 	// separation against them
 	hitPlatform = game.physics.arcade.collide(player, platforms);
-	cursors = game.input.keyboard.createCursorKeys();
+	// prevents stars to fall off the stage
+	game.physics.arcade.collide(stars, platforms);
+	game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
 	player.body.velocity.x = 0;
 
@@ -143,9 +147,17 @@ function update() {
 	// Allow the player to jump if they are touching the ground
 	if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
 
-		player.body.velocity.y = -100;
+		player.body.velocity.y = -350;
 	}
 }
+
+// tells phaser to check for an overlap between the player
+// and any star in the stars Group
+function collectStar (player, star) {
+
+		// removes the star from the screen
+		star.kill();
+	}
 
 </script>
 
