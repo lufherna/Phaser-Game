@@ -88,6 +88,24 @@ function create() {
 	// the true parameter tells the animation to loop
 	player.animations.add('left', [0, 1, 2, 3], 10, true);
 	player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+	// adding stars to the game
+	stars = game.add.group();
+
+	stars.enableBody = true;
+
+	// here we'll create 12 of them evenly spaced apart
+	for (var i = 0; i < 12; i++)
+	{
+		// create a star inside of the 'stars' group
+		var star = stars.create(i * 70, 0, 'star');
+
+		// let gravity drop it
+		star.body.gravity.y = 6;
+
+		// this just gives each star a slightly random bounce value
+		star.body.bounce.y = 0.7 + Math.random() * 0.2;
+	}
 }
 
 function update() {
@@ -125,7 +143,7 @@ function update() {
 	// Allow the player to jump if they are touching the ground
 	if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
 
-		player.body.velocity.y = -350;
+		player.body.velocity.y = -100;
 	}
 }
 
